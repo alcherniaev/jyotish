@@ -167,28 +167,73 @@ def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes
     return f"{difference_hours}:{difference_minutes:02d}"
 
 # прибавить, вычесть секунды
-start_hours = 208
-start_minutes = 41
-subtract_hours = 59
-subtract_minutes = 4
+start_hours = 267
+start_minutes = 45
+subtract_hours = 54
+subtract_minutes = 9
 
 difference = time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, "+")
 
 print("Разница времени:", difference)
 
+# TODO
 def kala_bala(sunrise, light_day, birth_time):
     # 1 ghati = 24 minutes, 1 palam = 24 seconds
     ghati, palam = 24, 24
     half_day = (light_day[0] * 60 + light_day[1]) / 2
+    #half_day = [half_day//60, half_day%60]
     mid_day = sunrise[0] * 60 + sunrise[1] + half_day
     mid_night = half_day + 12*60
 
-    sunrise_mid_night = int((sunrise[0] * 60 + sunrise[1]) - mid_night)
+    sunrise_mid_night = int(mid_night - (sunrise[0] * 60 + sunrise[1]) )
     sunrise_mid_night = [sunrise_mid_night//60, sunrise_mid_night%60]
-    sunrise_birth_time = int((sunrise[0] * 60 + sunrise[1]) - (birth_time[0] * 60 + birth_time[1]))
+    sunrise_birth_time = int((birth_time[0] * 60 + birth_time[1]) - (sunrise[0] * 60 + sunrise[1]))
     sunrise_birth_time = [sunrise_birth_time//60, sunrise_birth_time%60]
     ynatta = time_difference (sunrise_mid_night[0], sunrise_mid_night[1], 
                             sunrise_birth_time[0], sunrise_birth_time[1])
+    print(sunrise_mid_night)
+    print(sunrise_birth_time)
     print(ynatta)                        
 
 kala_bala([7, 55], [8, 3], [23, 45])
+
+def subtract_astronomical_time(min1, sec1, min2, sec2):
+    total_min1 = min1 + sec1 / 60
+    total_min2 = min2 + sec2 / 60
+    diff_min = total_min1 - total_min2
+    if diff_min < 0:
+        diff_min += 360  # Учитываем зацикленность по 360 градусам
+    diff_sec = (diff_min - int(diff_min)) * 60
+    diff_min = int(diff_min)
+    return [diff_min, int(diff_sec)]
+
+def divide_astronomical_degrees(minutes, seconds):
+    divisor = 3
+    total_minutes = minutes * 60 + seconds 
+    divided_minutes = total_minutes / divisor
+    result_minutes = divided_minutes // 60
+    result_seconds = divided_minutes % 60
+    
+    return [int(result_minutes), int(result_seconds)]
+
+def paksha_bala():
+    chandra = [0,0]
+    syria = [0,0]
+    chandra[0], chandra[1] = calculate_dolgota(17, 8, "Скорпион", "Луна")
+    syria[0], syria[1] = calculate_dolgota(4, 41, "Стрелец", "Солнце")
+    
+    good_planet_bala = subtract_astronomical_time(chandra[0], chandra[1], syria[0], syria[1])
+    if good_planet_bala[0] > 180:
+        good_planet_bala = subtract_astronomical_time(360, 0, good_planet_bala[0], good_planet_bala[1])
+    good_planet_bala = divide_astronomical_degrees(good_planet_bala[0], good_planet_bala[1])
+    bad_planet_bala = subtract_astronomical_time(60, 0, good_planet_bala[0], good_planet_bala[1])
+    print(f"Сила Благотворных планет: {good_planet_bala}")
+    print(f"Сила Зловредных планет: {bad_planet_bala}")
+
+paksha_bala()
+
+
+
+
+
+
