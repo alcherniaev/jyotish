@@ -155,7 +155,7 @@ def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes
     # Переводим часы и минуты в минуты
     start_total_minutes = start_hours * 60 + start_minutes
     subtract_total_minutes = subtract_hours * 60 + subtract_minutes
-    if action =="subtract":
+    if action =="subtract" or action == "-":
     # Вычисляем разницу в минутах
         difference_minutes = start_total_minutes - subtract_total_minutes
     else: 
@@ -167,12 +167,12 @@ def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes
     return f"{difference_hours}:{difference_minutes:02d}"
 
 # прибавить, вычесть секунды
-start_hours = 267
-start_minutes = 45
-subtract_hours = 54
-subtract_minutes = 9
+start_hours = 197
+start_minutes = 3
+subtract_hours = 180
+subtract_minutes = 0
 
-difference = time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, "+")
+difference = time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, "-")
 
 print("Разница времени:", difference)
 
@@ -208,7 +208,7 @@ def subtract_astronomical_time(min1, sec1, min2, sec2):
     return [diff_min, int(diff_sec)]
 
 def divide_astronomical_degrees(minutes, seconds):
-    divisor = 3
+    divisor = 15
     total_minutes = minutes * 60 + seconds 
     divided_minutes = total_minutes / divisor
     result_minutes = divided_minutes // 60
@@ -236,4 +236,17 @@ paksha_bala()
 
 
 
+print(f"devided: {1302//60}")
+print(f"devided: {1302%60}")
+print(divide_astronomical_degrees(7, 10))
+a = (7*60 + 10)
+b = 15*60
+c = (a/b) * 341
+d = c + 362
+print(d // 60, d%60)
 
+a = (2*60 + 3)
+b = 15*60
+c = (a/b) * 341
+d = c + 362
+print(d // 60, d%60)
