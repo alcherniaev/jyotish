@@ -1,10 +1,10 @@
 from conf import *
 from datetime import datetime, timedelta
 
-graha = "Сатурн"
-rashi = "Водолей"
-minutes = 24
-seconds = 56
+graha = "Венера"
+rashi = "Козерог"
+minutes = 5
+seconds = 7
 
 lagna_minutes = 2
 lagna_seconds = 55
@@ -160,19 +160,26 @@ def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes
         difference_minutes = start_total_minutes - subtract_total_minutes
     else: 
         difference_minutes = start_total_minutes + subtract_total_minutes
+
+    if difference_minutes < 0: # после достижения 0 начинается не 0, а 360, не -1, а 359 и тд
+        difference_minutes = 360*60 + difference_minutes
     # Вычисляем часы и минуты из разницы в минутах
     difference_hours = difference_minutes // 60
     difference_minutes %= 60
-
+    
+        
     return f"{difference_hours}:{difference_minutes:02d}"
 
 # прибавить, вычесть секунды
-start_hours = 197
-start_minutes = 3
-subtract_hours = 180
-subtract_minutes = 0
+start_hours = 180
+start_minutes = 54
+subtract_hours = 229
+subtract_minutes = 31
 
-difference = time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, "-")
+action = "-"
+
+
+difference = time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, action)
 
 print("Разница времени:", difference)
 
@@ -239,14 +246,18 @@ paksha_bala()
 print(f"devided: {1302//60}")
 print(f"devided: {1302%60}")
 print(divide_astronomical_degrees(7, 10))
-a = (7*60 + 10)
+a = (11*60 + 56)
 b = 15*60
-c = (a/b) * 341
-d = c + 362
+c = (a/b) * 362
+d = int(c + 0)
+print(f"a={a}, b={b}, c={c}. d={d}")
 print(d // 60, d%60)
 
-a = (2*60 + 3)
-b = 15*60
-c = (a/b) * 341
-d = c + 362
-print(d // 60, d%60)
+def ayana_bala(kranti):
+    res = ((24 + kranti) * 60) / 48
+    print(f"ayana bala: {res}")
+    
+ayana_bala(-4.47)
+#print(0.6499999999999995 * 2) # сурья онли
+print(74.28//15)
+print(74.28%15)
