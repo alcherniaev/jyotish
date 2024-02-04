@@ -1,15 +1,25 @@
 from conf import *
 from datetime import datetime, timedelta
 
-graha = "Венера"
-rashi = "Козерог"
-minutes = 5
-seconds = 7
+graha = "Луна"
+rashi = "Лев"
+minutes = 11
+seconds = 8
 
-lagna_minutes = 2
-lagna_seconds = 55
-lagna_rashi = "Дева"
+###
+graha = "Солнце"
+rashi = "Дева"
+minutes = 23
+seconds = 22
 
+lagna_minutes = 10
+lagna_seconds = 9
+lagna_rashi = "Козерог"
+
+###
+lagna_minutes = 13
+lagna_seconds = 57
+lagna_rashi = "Лев"
 """
 graha = "Сатурн"
 rashi = "Скорпион"
@@ -53,12 +63,14 @@ def calculate_dig_bala(
     lagna_sum_seconds = lagna_dolgota_minutes * 60 + lagna_seconds
     if graha in ["Солнце", "Марс"]:
         house_4_dolgota_seconds = lagna_sum_seconds + 30*3*60
-        if house_4_dolgota_seconds > 360*60: house_4_dolgota_seconds = abs(360*60 - house_4_dolgota_seconds)
+        if house_4_dolgota_seconds > 360*60: 
+            house_4_dolgota_seconds = abs(360*60 - house_4_dolgota_seconds)
         res = abs(graha_sum_seconds - house_4_dolgota_seconds)
         print(f"Точка отсутствия силы: {house_4_dolgota_seconds//60}-{house_4_dolgota_seconds%60}")
     elif graha in ["Юпитер", "Меркурий"]:
         house_7_dolgota_seconds = lagna_sum_seconds + 30*6*60
-        if house_7_dolgota_seconds > 360*60: house_7_dolgota_seconds = abs(360*60 - house_7_dolgota_seconds)        
+        if house_7_dolgota_seconds > 360*60: 
+            house_7_dolgota_seconds = abs(360*60 - house_7_dolgota_seconds)        
         res = abs(graha_sum_seconds - house_7_dolgota_seconds)
         print(f"Точка отсутствия силы: {house_7_dolgota_seconds//60}-{house_7_dolgota_seconds%60}")
     elif graha == "Сатурн":
@@ -66,11 +78,12 @@ def calculate_dig_bala(
         print(f"Точка отсутствия силы: {lagna_sum_seconds//60}-{lagna_sum_seconds%60}")
     elif graha in ["Венера", "Луна"]:
         house_10_dolgota_seconds = lagna_sum_seconds + 30*9*60
-        #if house_10_dolgota_seconds > 360*60: house_10_dolgota_seconds = abs(360*60 - house_10_dolgota_seconds)
+        if house_10_dolgota_seconds > 360*60: house_10_dolgota_seconds = abs(360*60 - house_10_dolgota_seconds)
         #if house_10_dolgota_seconds > 360*60: house_10_dolgota_seconds = abs(house_10_dolgota_seconds-360*60)
 
         res = abs(graha_sum_seconds - house_10_dolgota_seconds)
         print(f"Точка отсутствия силы: {house_10_dolgota_seconds//60}-{house_10_dolgota_seconds%60}")
+    print(f"Результат, который если больше 180, нужно его вычесть из 180 или 360(!): {res//60}")     
     res //= 3
     minutes = res // 60
     remaining_seconds = res % 60
@@ -161,8 +174,8 @@ def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes
     else: 
         difference_minutes = start_total_minutes + subtract_total_minutes
 
-    if difference_minutes < 0: # после достижения 0 начинается не 0, а 360, не -1, а 359 и тд
-        difference_minutes = 360*60 + difference_minutes
+    #if difference_minutes < 0: # после достижения 0 начинается не 0, а 360, не -1, а 359 и тд
+    #    difference_minutes = 360*60 + difference_minutes
     # Вычисляем часы и минуты из разницы в минутах
     difference_hours = difference_minutes // 60
     difference_minutes %= 60
@@ -171,12 +184,15 @@ def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes
     return f"{difference_hours}:{difference_minutes:02d}"
 
 # прибавить, вычесть секунды
-start_hours = 180
-start_minutes = 54
-subtract_hours = 229
-subtract_minutes = 31
+start_hours = 391
+start_minutes = 35
+subtract_hours = 4
+subtract_minutes = 57
 
-action = "-"
+
+
+
+action = "+"
 
 
 difference = time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, action)
@@ -214,8 +230,8 @@ def subtract_astronomical_time(min1, sec1, min2, sec2):
     diff_min = int(diff_min)
     return [diff_min, int(diff_sec)]
 
-def divide_astronomical_degrees(minutes, seconds):
-    divisor = 15
+def divide_astronomical_degrees(minutes, seconds, divisor=15):
+    divisor = divisor
     total_minutes = minutes * 60 + seconds 
     divided_minutes = total_minutes / divisor
     result_minutes = divided_minutes // 60
@@ -245,7 +261,7 @@ paksha_bala()
 
 print(f"devided: {1302//60}")
 print(f"devided: {1302%60}")
-print(divide_astronomical_degrees(7, 10))
+print(divide_astronomical_degrees(19, 50, 4))
 a = (11*60 + 56)
 b = 15*60
 c = (a/b) * 362
