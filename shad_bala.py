@@ -1,41 +1,57 @@
 from conf import *
 from datetime import datetime, timedelta
 
-graha = "Луна"
-rashi = "Лев"
-minutes = 11
-seconds = 8
-
-###
+#Планеты
+################################### 
 graha = "Солнце"
-rashi = "Дева"
-minutes = 23
-seconds = 22
+rashi = "Водолей"
+position = [0, 52]
+minutes = position[0]
+seconds = position[1]
 
-lagna_minutes = 10
-lagna_seconds = 9
-lagna_rashi = "Козерог"
+graha = "Луна"
+rashi = "Скорпион"
+position = [13, 7]
+minutes = position[0]
+seconds = position[1]
 
-###
-lagna_minutes = 13
-lagna_seconds = 57
-lagna_rashi = "Лев"
-"""
+graha = "Меркурий"
+rashi = "Козерог"
+position = [26, 12]
+minutes = position[0]
+seconds = position[1]
+
+graha = "Венера"
+rashi = "Рыбы"
+position = [15, 43]
+minutes = position[0]
+seconds = position[1]
+
+graha = "Марс"
+rashi = "Рыбы"
+position = [14, 17]
+minutes = position[0]
+seconds = position[1]
+
+graha = "Юпитер"
+rashi = "Козерог"
+position = [7, 51]
+minutes = position[0]
+seconds = position[1]
+
 graha = "Сатурн"
 rashi = "Скорпион"
-minutes = 22
-seconds = 59
+position = [4, 3]
+minutes = position[0]
+seconds = position[1]
+###################################
 
-graha = "Солнце"
-rashi = "Дева"
-minutes = 23
-seconds = 22
 
-lagna_minutes = 13
-lagna_seconds = 57
-lagna_rashi = "Лев"
+lagna_minutes = 28
+lagna_seconds = 35
+lagna_rashi = "Овен"
 
-"""
+
 def calculate_dolgota(minutes, seconds, rashi, graha, rashis=rashi_values):
     if rashi in rashis:
         dolgota_minutes = rashis[rashi] * 30 + minutes
@@ -48,7 +64,7 @@ def calculate_dolgota(minutes, seconds, rashi, graha, rashis=rashi_values):
         return None
     
 """нуждается в сверке / корректировке расчета (стр. 449)
-в случае превышения 180 или 360 градусов нужно вычитать """
+в случае превышения 180 или 360 градусов нужно вычитать (360 проверил)"""
 def calculate_dig_bala(
     dolgota_minutes, 
     dolgota_seconds, 
@@ -83,7 +99,10 @@ def calculate_dig_bala(
 
         res = abs(graha_sum_seconds - house_10_dolgota_seconds)
         print(f"Точка отсутствия силы: {house_10_dolgota_seconds//60}-{house_10_dolgota_seconds%60}")
-    print(f"Результат, который если больше 180, нужно его вычесть из 180 или 360(!): {res//60}")     
+    print(f"Результат, который если больше 180, нужно его вычесть из 180 или 360(!): {res//60}") 
+    if res  > 180*60:
+        res = abs(360*60 - res)
+        print(f"Новый Результат, (вычтен из 360) (!): {res//60}")
     res //= 3
     minutes = res // 60
     remaining_seconds = res % 60
@@ -131,14 +150,15 @@ calculate_dig_bala(
     dolgota_minutes=dolgota_minutes, 
     dolgota_seconds=dolgota_seconds)
 
-voshod = [6, 32] 
-zahod = [18, 19]
-day = [11, 47]
-night = [12, 12]
+voshod = [4, 51] 
+zahod = [20, 3]
+day = [15, 12]
+night = [8, 48]
 day_s = (day[0]*60 + day[1])
 birth_time = [3, 48]
 birth_time_s = int(birth_time[0]*60 + birth_time[1])
 print(day_s/2)
+print("----")
 print(f"Продолжительность половины дня: {(day_s/2) // 60}: {(day_s/2) % 60}")
 
 # полдень
@@ -153,7 +173,7 @@ if polnoch > 24*60: polnoch -= 24*60
 half_day_m = polnoch//60
 half_day_s = polnoch%60
 print(f"Полночь наступает в {half_day_m}:{half_day_s}")
-
+print("----")
 razn = polnoch * birth_time_s
 r_m = razn//60
 r_s = razn%60
@@ -164,7 +184,7 @@ print(f"{r_m}:{r_s}")
 #print(f"Друзья для {graha}: {graha_perm_rel[graha]['Друг']}")
 
 
-def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, action="subtract"):
+def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, action="subtract", d=False):
     # Переводим часы и минуты в минуты
     start_total_minutes = start_hours * 60 + start_minutes
     subtract_total_minutes = subtract_hours * 60 + subtract_minutes
@@ -173,9 +193,9 @@ def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes
         difference_minutes = start_total_minutes - subtract_total_minutes
     else: 
         difference_minutes = start_total_minutes + subtract_total_minutes
-
-    #if difference_minutes < 0: # после достижения 0 начинается не 0, а 360, не -1, а 359 и тд
-    #    difference_minutes = 360*60 + difference_minutes
+    if d == True: 
+        if difference_minutes < 0: # после достижения 0 начинается не 0, а 360, не -1, а 359 и тд
+           difference_minutes = 360*60 + difference_minutes
     # Вычисляем часы и минуты из разницы в минутах
     difference_hours = difference_minutes // 60
     difference_minutes %= 60
@@ -184,18 +204,15 @@ def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes
     return f"{difference_hours}:{difference_minutes:02d}"
 
 # прибавить, вычесть секунды
-start_hours = 391
-start_minutes = 35
-subtract_hours = 4
-subtract_minutes = 57
+start_hours = 355
+start_minutes = 26
+subtract_hours = 9
+subtract_minutes = 44
+
+action = "-"
 
 
-
-
-action = "+"
-
-
-difference = time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, action)
+difference = time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, action, d=False)
 
 print("Разница времени:", difference)
 
@@ -242,13 +259,13 @@ def divide_astronomical_degrees(minutes, seconds, divisor=15):
 def paksha_bala():
     chandra = [0,0]
     syria = [0,0]
-    chandra[0], chandra[1] = calculate_dolgota(17, 8, "Скорпион", "Луна")
-    syria[0], syria[1] = calculate_dolgota(4, 41, "Стрелец", "Солнце")
+    chandra[0], chandra[1] = calculate_dolgota(11, 8, "Лев", "Луна")
+    syria[0], syria[1] = calculate_dolgota(9, 35, "Овен", "Солнце")
     
     good_planet_bala = subtract_astronomical_time(chandra[0], chandra[1], syria[0], syria[1])
     if good_planet_bala[0] > 180:
         good_planet_bala = subtract_astronomical_time(360, 0, good_planet_bala[0], good_planet_bala[1])
-    good_planet_bala = divide_astronomical_degrees(good_planet_bala[0], good_planet_bala[1])
+    good_planet_bala = divide_astronomical_degrees(good_planet_bala[0], good_planet_bala[1], 3)
     bad_planet_bala = subtract_astronomical_time(60, 0, good_planet_bala[0], good_planet_bala[1])
     print(f"Сила Благотворных планет: {good_planet_bala}")
     print(f"Сила Зловредных планет: {bad_planet_bala}")
@@ -258,22 +275,29 @@ paksha_bala()
 
 
 
+bhudja = [55, 50]
+print(f"devided: {bhudja[0]//15}")
+#print(f"devided: {1302//60}")
 
-print(f"devided: {1302//60}")
-print(f"devided: {1302%60}")
-print(divide_astronomical_degrees(19, 50, 4))
-a = (11*60 + 56)
-b = 15*60
-c = (a/b) * 362
-d = int(c + 0)
+#print(f"devided: {1302//60}")
+#print(f"devided: {1302%60}")
+print("asd", divide_astronomical_degrees(5, 30, 4))
+a = (8*60 + 37)
+b = 15*60 
+c = (a/b) * 236
+d = int(c + 1002)
 print(f"a={a}, b={b}, c={c}. d={d}")
 print(d // 60, d%60)
 
 def ayana_bala(kranti):
-    res = ((24 + kranti) * 60) / 48
+    res = ((24 - kranti) * 60) / 48
+    #res = res * 2 # сурья онли x2
     print(f"ayana bala: {res}")
     
-ayana_bala(-4.47)
-#print(0.6499999999999995 * 2) # сурья онли
+    
+ayana_bala(18.57)
+#print(0.6499999999999995 * 2) 
 print(74.28//15)
 print(74.28%15)
+
+print("\033[1mЖирный текст\033[0m")
