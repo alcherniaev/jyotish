@@ -150,6 +150,7 @@ calculate_dig_bala(
     dolgota_minutes=dolgota_minutes, 
     dolgota_seconds=dolgota_seconds)
 
+#sunrise, light_day, birth_time
 voshod = [4, 51] 
 zahod = [20, 3]
 day = [15, 12]
@@ -217,25 +218,61 @@ difference = time_difference(start_hours, start_minutes, subtract_hours, subtrac
 print("Разница времени:", difference)
 
 # TODO
+sunrise = [4, 51]
+light_day = [15, 12]
+birth_time = [3, 10]
 def kala_bala(sunrise, light_day, birth_time):
+    # разница между временем рождения и полночью
     # 1 ghati = 24 minutes, 1 palam = 24 seconds
     ghati, palam = 24, 24
-    half_day = (light_day[0] * 60 + light_day[1]) / 2
-    #half_day = [half_day//60, half_day%60]
-    mid_day = sunrise[0] * 60 + sunrise[1] + half_day
+    half_light_day = (light_day[0] * 60 + light_day[1]) / 2
+    print(f'half_light_day: {half_light_day}')
+    print(f'half_light_day: {[half_light_day//60, half_light_day%60]}')
+    #half_light_day = [half_day//60, half_day%60]
+    mid_day = sunrise[0] * 60 + sunrise[1] + half_light_day
+    print(f"mid_day: {[mid_day//60, mid_day%60]}")
     mid_night = half_day + 12*60
+    print(f"mid_night: {[mid_night//60, mid_night%60]}")
 
-    sunrise_mid_night = int(mid_night - (sunrise[0] * 60 + sunrise[1]) )
+    # отсюда разница между восходом и полночью, и временем рождения !
+    birth_time_minutes = birth_time[0] * 60 + birth_time[1]
+    mid_night_minutes = mid_night#[0] * 60 + mid_night[1]
+    unnata_bala = abs(birth_time_minutes - mid_night_minutes)
+    
+    nata_bala = abs(720 - unnata_bala)
+    chandra_mangala_shani = nata_bala * 2
+    
+    syria_guru = 1440 - chandra_mamngala_shani
+    chandra_mamngala_shani_ghati = [chandra_mamngala_shani // 24, (chandra_mamngala_shani%12)*60/24]
+    syria_guru_ghati = [syria_guru // 24, (syria_guru%12)*60/24]
+    print(f"chandra, mangala, shani: {chandra_mamngala_shani_ghati}")
+    print(f"syria, guru: {syria_guru_ghati}")
+    print("Buddhi: 60")
+
+    sunrise_mid_night = max(
+        int(mid_night - (sunrise[0] * 60 + sunrise[1])),
+        int((sunrise[0] * 60 + sunrise[1]) - mid_night))
+    print(f"sunrise_mid_night: {sunrise_mid_night}")
+    #sunrise_mid_night = [sunrise_mid_night//60, sunrise_mid_night%60]
+    sunrise_birth_time = max(
+        int((birth_time[0] * 60 + birth_time[1]) - (sunrise[0] * 60 + sunrise[1])),
+        int((sunrise[0] * 60 + sunrise[1]) - (birth_time[0] * 60 + birth_time[1])))
+    #sunrise_birth_time = [sunrise_birth_time//60, sunrise_birth_time%60]
+    print(f"sunrise_birth_time: {sunrise_birth_time}")
+    #ynatta = time_difference (sunrise_mid_night[0], sunrise_mid_night[1], 
+    #                        sunrise_birth_time[0], sunrise_birth_time[1])
+    """sunrise_mid_night = int(mid_night - (sunrise[0] * 60 + sunrise[1]) )
     sunrise_mid_night = [sunrise_mid_night//60, sunrise_mid_night%60]
     sunrise_birth_time = int((birth_time[0] * 60 + birth_time[1]) - (sunrise[0] * 60 + sunrise[1]))
     sunrise_birth_time = [sunrise_birth_time//60, sunrise_birth_time%60]
     ynatta = time_difference (sunrise_mid_night[0], sunrise_mid_night[1], 
-                            sunrise_birth_time[0], sunrise_birth_time[1])
+                            sunrise_birth_time[0], sunrise_birth_time[1])"""
     print(sunrise_mid_night)
     print(sunrise_birth_time)
-    print(ynatta)                        
+    #print(f"ynatta: {ynatta}")                        
 
-kala_bala([7, 55], [8, 3], [23, 45])
+#kala_bala([7, 55], [8, 3], [23, 45])
+kala_bala(sunrise, light_day, birth_time)
 
 def subtract_astronomical_time(min1, sec1, min2, sec2):
     total_min1 = min1 + sec1 / 60
@@ -301,3 +338,30 @@ print(74.28//15)
 print(74.28%15)
 
 print("\033[1mЖирный текст\033[0m")
+def time_difference_2(birth_time, sunrise_time):
+    birth_hours, birth_minutes = birth_time[0], birth_time[1]
+    sunrise_hours, sunrise_minutes = sunrise_time[0], sunrise_time[1]
+
+    # Преобразуем время в минуты
+    birth_total_minutes = birth_hours * 60 + birth_minutes
+    sunrise_total_minutes = sunrise_hours * 60 + sunrise_minutes
+
+    # Вычисляем разницу
+    difference_minutes = sunrise_total_minutes - birth_total_minutes
+
+    # Обработка случая, когда время восхода солнца позже времени рождения
+    if difference_minutes < 0:
+        difference_minutes += 24 * 60  # Добавляем 24 часа в минутах
+
+    return difference_minutes
+
+# Пример использования функции
+birth_time = [3,10]
+sunrise_time = [4, 51]
+
+difference = time_difference_2(birth_time, sunrise_time)
+print("Разница между временем восхода солнца и временем рождения:", difference, "минут")
+print(1277//24)
+print((1263%24))
+print(1488//60)
+print((1488%60))
