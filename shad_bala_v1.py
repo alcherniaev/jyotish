@@ -37,6 +37,7 @@ lagna_rashi = "Овен"
 sunrise = [8, 9]
 light_day = [9, 8]
 birth_time = [10, 0]
+sunset = [17, 17]
 
 """lagna_minutes = 10
 lagna_seconds = 9
@@ -123,7 +124,7 @@ def kala_bala(sunrise, light_day, birth_time):
     ghati, palam = 24, 24
     half_light_day = (light_day[0] * 60 + light_day[1]) / 2
     mid_day = sunrise[0] * 60 + sunrise[1] + half_light_day
-    mid_night = half_day + 12*60
+    mid_night = mid_day + 12*60
     print(f"mid_night: {[mid_night//60, mid_night%60]}")
 
     birth_time_minutes = birth_time[0] * 60 + birth_time[1]
@@ -132,11 +133,11 @@ def kala_bala(sunrise, light_day, birth_time):
     chandra_mangala_shani = nata_bala * 2
     syria_guru = 1440 - chandra_mangala_shani
     chandra_mangala_shani_ghati = [int(chandra_mangala_shani // 24), int((chandra_mangala_shani%24)*60/24)]
-    syria_guru_ghati = [int(syria_guru // 24), int((syria_guru%24)*60/24)]
+    syria_guru_shukra_ghati = [int(syria_guru // 24), int((syria_guru%24)*60/24)]
     print("")
     print("******* Nathonata Bala *******")
     print(f"chandra, mangala, shani: {chandra_mangala_shani_ghati}")
-    print(f"syria, guru: {syria_guru_ghati}")
+    print(f"syria, guru, shukra: {syria_guru_shukra_ghati}")
     print("Buddhi: 60")
     print("")
     return
@@ -178,6 +179,91 @@ def paksha_bala(syria, chandra):
     print(f"Сила Зловредных планет: {bad_planet_bala}")
     print("")
 
+def birth_period(sunrise, sunset, birth_time, light_day):
+    print("******* Tribhata Bala *******")
+    # пока выводим день/ночь и их интервалы. 
+    #TODO следует помониторить и после автоматизировать
+    sunrise_minutes = sunrise[0] * 60 + sunrise[1]
+    sunset_minutes = sunset[0] * 60 + sunset[1]
+    birth_time_minutes = birth_time[0] * 60 + birth_time[1]
+    light_day_minutes = light_day[0] * 60 + light_day[1]
+
+    # Проверяем, если время рождения находится между восходом и закатом
+    if sunrise_minutes <= birth_time_minutes <= sunset_minutes:
+        print("день,", end=" ")
+        # Разделяем световой день на 3 равные части
+        day_third = light_day_minutes / 3
+        """if birth_time_minutes <= day_third:
+            print("1 треть")
+        elif day_third < birth_time_minutes <= 2 * day_third:
+            print("2 треть")
+        else:
+            print("3 треть")"""
+
+        print(f"длительность дня: {light_day_minutes} минут")
+        print(f"треть дня: {day_third}")
+
+        third_1 = [int((sunrise_minutes + day_third)//60), int((sunrise_minutes + day_third)%60)]
+        if third_1[0]*60 + third_1[1] > 24*60:
+            third_1_p = 24*60 - (third_1[0]*60 + third_1[1])
+            third_1 = [third_1_p[0], third_1_p[1]]
+
+        third_2 = [int((sunrise_minutes + day_third*2)//60), int((sunrise_minutes + day_third*2)%60)]
+        if third_2[0]*60 + third_2[1] > 24*60:
+            third_2_p = (third_2[0]*60 + third_2[1]) - 24*60
+            third_2 = [third_2_p//60, third_2_p%60]
+
+        third_3 = [int((sunrise_minutes + day_third*3)//60), int((sunrise_minutes + day_third*3)%60)]
+        if third_3[0]*60 + third_3[1] > 24*60:
+            third_3_p = (third_3[0]*60 + third_3[1]) - 24*60
+            third_3 = [third_3_p//60, third_3_p%60]
+
+        print(f"Первая треть дня: {sunrise[0]}:{sunrise[1]} - {third_1[0]}:{third_1[1]} (Меркурий)")
+        print(f"Вторая треть дня: {third_1[0]}:{third_1[1]} - {third_2[0]}:{third_2[1]} (Сурья)")
+        print(f"Третья треть дня: {third_2[0]}:{third_2[1]} - {third_3[0]}:{third_3[1]} (Шани)")
+
+    else:
+        print("ночь,", end=" ")
+        # Рассчитываем продолжительность ночи
+        night_duration = 24 * 60 - light_day_minutes
+        # Определяем время начала ночи
+        night_start = sunset_minutes #if sunset_minutes < sunrise_minutes else sunrise_minutes
+        # Разделяем ночь на 3 равные части относительно времени начала ночи
+        night_third = night_duration / 3
+        print(f"длительность ночи: {night_duration} минут")
+        print(f"треть ночи: {night_third}")
+        third_1 = [int((night_start + night_third)//60), int((night_start + night_third)%60)]
+        if third_1[0]*60 + third_1[1] > 24*60:
+            third_1_p = 24*60 - (third_1[0]*60 + third_1[1])
+            third_1 = [third_1_p[0], third_1_p[1]]
+
+        third_2 = [int((night_start + night_third*2)//60), int((night_start + night_third*2)%60)]
+        if third_2[0]*60 + third_2[1] > 24*60:
+            third_2_p = (third_2[0]*60 + third_2[1]) - 24*60
+            third_2 = [third_2_p//60, third_2_p%60]
+
+        third_3 = [int((night_start + night_third*3)//60), int((night_start + night_third*3)%60)]
+        if third_3[0]*60 + third_3[1] > 24*60:
+            third_3_p = (third_3[0]*60 + third_3[1]) - 24*60
+            third_3 = [third_3_p//60, third_3_p%60]
+
+        print(f"Первая треть ночи: {sunset[0]}:{sunset[1]} - {third_1[0]}:{third_1[1]} (Луна)")
+        print(f"Вторая треть ночи: {third_1[0]}:{third_1[1]} - {third_2[0]}:{third_2[1]} (Венера)")
+        print(f"Третья треть ночи: {third_2[0]}:{third_2[1]} - {third_3[0]}:{third_3[1]} (Марс)")
+    print(f"Юпитер всегда + 60")
+
+
+
+
+"""
+год, месяц, день, хора
+Важно, чтобы год начинался до даты рождения (новолуние чайтра)
+день не календарный, типа понедельник, а от даты восхода. 
+может и воскресенье еще действовать в понедельник    
+"""
+
+
+
 
 
 for planet_info in planets_info:
@@ -207,3 +293,4 @@ for planet_info in planets_info:
 kala_bala(sunrise, light_day, birth_time)
 
 paksha_bala(planets_info[0], planets_info[1])
+birth_period(sunrise, sunset, birth_time, light_day)
