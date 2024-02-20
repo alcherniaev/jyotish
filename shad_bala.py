@@ -241,11 +241,11 @@ def kala_bala(sunrise, light_day, birth_time):
     
     nata_bala = abs(720 - unnata_bala)
     chandra_mangala_shani = nata_bala * 2
-    
-    syria_guru = 1440 - chandra_mamngala_shani
-    chandra_mamngala_shani_ghati = [chandra_mamngala_shani // 24, (chandra_mamngala_shani%12)*60/24]
-    syria_guru_ghati = [syria_guru // 24, (syria_guru%12)*60/24]
-    print(f"chandra, mangala, shani: {chandra_mamngala_shani_ghati}")
+
+    syria_guru = 1440 - chandra_mangala_shani
+    chandra_mangala_shani_ghati = [chandra_mangala_shani // 24, (chandra_mangala_shani%24)*60/24]
+    syria_guru_ghati = [syria_guru // 24, (syria_guru%24)*60/24]
+    print(f"chandra, mangala, shani: {chandra_mangala_shani_ghati}")
     print(f"syria, guru: {syria_guru_ghati}")
     print("Buddhi: 60")
 

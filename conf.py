@@ -93,3 +93,34 @@ graha_perm_rel = {
         'Враг': ['Луна', 'Марс', 'Солнце']
         }
 }
+
+sklonenie = {
+    0: 0,
+    1: 362,
+    2: 703,
+    3: 1002,
+    4: 1238,
+    5: 1388,
+    6: 1440
+}
+
+# Ira
+"""
+ravnodenstvie_distance([266, 43])
+ravnodenstvie_distance([250, 56])
+ravnodenstvie_distance([283, 34])
+ravnodenstvie_distance([266, 56])
+ravnodenstvie_distance([298, 55])
+ravnodenstvie_distance([285, 32])
+ravnodenstvie_distance([348, 44])
+"""
+# ya
+"""
+ravnodenstvie_distance([33, 19])
+ravnodenstvie_distance([154, 52])
+ravnodenstvie_distance([378, 46])
+ravnodenstvie_distance([72, 50])
+ravnodenstvie_distance([101, 24])
+ravnodenstvie_distance([124, 27])
+ravnodenstvie_distance([306, 23])
+"""
