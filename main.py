@@ -16,6 +16,16 @@ kranty_mult = {
     5: 52,
 
 }
+
+def ayana_bala(kranti, sign="-"):
+    if sign == "-": 
+        res = ((24 - kranti) * 60) / 48
+    else: 
+        res = ((24 + kranti) * 60) / 48
+    #res = res * 2 # сурья онли x2
+    print(f"ayana bala: {res}")
+
+
 def ravnodenstvie_distance(dolgota, ayanamsha=[21,16] ):
     ayanamsha_minutes = ayanamsha[0]*60 + ayanamsha[1]
     dolgota_minutes = dolgota[0]*60 + dolgota[1]
@@ -43,10 +53,23 @@ def ravnodenstvie_distance(dolgota, ayanamsha=[21,16] ):
     a = (bhudja_chastnoe[0]*60+bhudja_chastnoe[1])
     b = 15*60
     c = (a/b) * kranty_mult[bhudja_ostatok]
-    kranty = int(c + 362)
+    kranty = int(c + sklonenie[bhudja_ostatok])
     print(f"kranty = {kranty//60, kranty%60}")
     return kranty/60
 kranty = ravnodenstvie_distance([180, 54])
+ayana_bala(kranty)
+kranty = ravnodenstvie_distance([311, 17])
+ayana_bala(kranty, "+")
+kranty = ravnodenstvie_distance([229, 31])
+ayana_bala(kranty)
+kranty = ravnodenstvie_distance([181, 32])
+ayana_bala(kranty, "+")
+kranty = ravnodenstvie_distance([84, 1])
+ayana_bala(kranty, "+")
+kranty = ravnodenstvie_distance([171, 10])
+ayana_bala(kranty)
+kranty = ravnodenstvie_distance([124, 23])
+ayana_bala(kranty)
 """ravnodenstvie_distance([332, 33])
 ravnodenstvie_distance([250, 47])
 ravnodenstvie_distance([202, 48])
@@ -56,9 +79,5 @@ ravnodenstvie_distance([145, 39])
 """
 
 
-def ayana_bala(kranti):
-    res = ((24 - kranti) * 60) / 48
-    #res = res * 2 # сурья онли x2
-    print(f"ayana bala: {res}")
 
-ayana_bala(kranty)
+
