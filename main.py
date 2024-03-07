@@ -1,3 +1,17 @@
+graha_destincation = {
+    "Овен": "C",
+    "Телец": "C",
+    "Близнецы": "C",
+    "Рак": "Ю",
+    "Лев": "Ю",
+    "Дева": "Ю",
+    "Весы": "Ю",
+    "Скорпион": "Ю",
+    "Стрелец": "Ю",
+    "Козерог": "C",
+    "Водолей": "C",
+    "Рыбы": "C"
+} 
 sklonenie = {
     0: 0,
     1: 362,
@@ -31,11 +45,12 @@ def ravnodenstvie_distance(dolgota, ayanamsha=[21,16] ):
     dolgota_minutes = dolgota[0]*60 + dolgota[1]
     dolgota_ayanamsha_minutes = dolgota_minutes + ayanamsha_minutes
     distance = 360*60 - dolgota_ayanamsha_minutes 
-
+    dolgota_minutes = dolgota_ayanamsha_minutes
     if dolgota_minutes < 90*60: 
         distance = dolgota_minutes
     if dolgota_minutes > 360*60: 
         distance = dolgota_minutes - 360*60
+
     if distance > 180*60: 
         distance = 180*60 - dolgota_ayanamsha_minutes 
     if distance > 90*60 and distance < 180*60:
@@ -69,6 +84,9 @@ ayana_bala(kranty, "+")
 kranty = ravnodenstvie_distance([171, 10])
 ayana_bala(kranty)
 kranty = ravnodenstvie_distance([124, 23])
+ayana_bala(kranty)
+print("RRRR")
+kranty = ravnodenstvie_distance([33, 19], [0,0])
 ayana_bala(kranty)
 """ravnodenstvie_distance([332, 33])
 ravnodenstvie_distance([250, 47])

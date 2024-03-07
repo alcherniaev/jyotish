@@ -27,7 +27,7 @@ planets_info_aleksei = [
     ("Юпитер", "Рак", [10, 43]),
     ("Сатурн", "Козерог", [12, 39])
 ]
-#planets_info = planets_info_aleksei
+planets_info = planets_info_aleksei
 
 
 lagna_minutes = 28
@@ -252,7 +252,47 @@ def birth_period(sunrise, sunset, birth_time, light_day):
         print(f"Третья треть ночи: {third_2[0]}:{third_2[1]} - {third_3[0]}:{third_3[1]} (Марс)")
     print(f"Юпитер всегда + 60")
 
+def ayana_bala(kranti, graha ):
+    if graha == "-": 
+        res = ((24 - kranti) * 60) / 48
+    else: 
+        res = ((24 + kranti) * 60) / 48
+    #res = res * 2 # сурья онли x2
+    print(f"ayana bala: {res}")
 
+
+def ravnodenstvie_distance(dolgota, ayanamsha=[21,16]):
+    ayanamsha_minutes = ayanamsha[0]*60 + ayanamsha[1]
+    dolgota_minutes = dolgota[0]*60 + dolgota[1]
+    dolgota_ayanamsha_minutes = dolgota_minutes + ayanamsha_minutes
+    distance = 360*60 - dolgota_ayanamsha_minutes 
+
+    if dolgota_ayanamsha_minutes < 90*60: 
+        distance = dolgota_ayanamsha_minutes
+    if dolgota_ayanamsha_minutes > 360*60: 
+        distance = dolgota_ayanamsha_minutes - 360*60
+
+    if distance > 180*60: 
+        distance = 180*60 - dolgota_ayanamsha_minutes 
+    if distance > 90*60 and distance < 180*60:
+        distance = 180*60 - distance
+    if distance < 90*60 and distance > 0: 
+        print(distance//60, distance%60)
+    else:
+        raise ValueError(f"ошибка при расчете: bhudja = {distance//60, distance%60}")
+
+
+    bhudja = [distance//60, distance%60]
+    bhudja_ostatok = bhudja[0]//15
+    bhudja_chastnoe = [bhudja[0]%15, bhudja[1]]
+    print(f"bhudja_ostatok = {bhudja_ostatok}")
+    print(f"bhudja_chastnoe = {bhudja_chastnoe}")
+    a = (bhudja_chastnoe[0]*60+bhudja_chastnoe[1])
+    b = 15*60
+    c = (a/b) * kranty_mult[bhudja_ostatok]
+    kranty = int(c + sklonenie[bhudja_ostatok])
+    print(f"kranty = {kranty//60, kranty%60}")
+    return kranty/60
 
 
 """
@@ -287,7 +327,8 @@ for planet_info in planets_info:
         dolgota_minutes=dolgota_minutes, 
         dolgota_seconds=dolgota_seconds,
         graha=graha)  
-    
+
+    ravnodenstvie_distance([dolgota_minutes,dolgota_seconds], ayanamsha=[23,44] )
     print("*****************************************")
 
 kala_bala(sunrise, light_day, birth_time)
