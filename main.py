@@ -45,8 +45,8 @@ def ravnodenstvie_distance(dolgota, ayanamsha=[21,16] ):
     dolgota_minutes = dolgota[0]*60 + dolgota[1]
     dolgota_ayanamsha_minutes = dolgota_minutes + ayanamsha_minutes
     distance = 360*60 - dolgota_ayanamsha_minutes 
-    dolgota_minutes = dolgota_ayanamsha_minutes
-    if dolgota_minutes < 90*60: 
+    #dolgota_minutes = dolgota_ayanamsha_minutes
+    """ if dolgota_minutes < 90*60: 
         distance = dolgota_minutes
     if dolgota_minutes > 360*60: 
         distance = dolgota_minutes - 360*60
@@ -57,9 +57,24 @@ def ravnodenstvie_distance(dolgota, ayanamsha=[21,16] ):
         distance = 180*60 - distance
     if distance < 90*60 and distance > 0: 
         print(distance//60, distance%60)
-    
+    else:
+        raise ValueError(f"ошибка при расчете: bhudja = {distance//60, distance%60}") """
+
+    if dolgota_ayanamsha_minutes < 90*60: 
+        distance = dolgota_ayanamsha_minutes
+    if dolgota_ayanamsha_minutes > 360*60: 
+        distance = dolgota_ayanamsha_minutes - 360*60
+
+    if distance > 180*60: 
+        distance = 180*60 - dolgota_ayanamsha_minutes 
+    if distance > 90*60 and distance < 180*60:
+        distance = 180*60 - distance
+    if distance < 90*60 and distance > 0: 
+        print(distance//60, distance%60)
     else:
         raise ValueError(f"ошибка при расчете: bhudja = {distance//60, distance%60}")
+
+
     bhudja = [distance//60, distance%60]
     bhudja_ostatok = bhudja[0]//15
     bhudja_chastnoe = [bhudja[0]%15, bhudja[1]]

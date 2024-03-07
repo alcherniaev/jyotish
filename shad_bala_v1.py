@@ -2,6 +2,7 @@ from conf import *
 from datetime import datetime, timedelta
 
 # Список планет и их позиций
+ayanamsha=[23,39]
 planets_info = [
     ("Солнце", "Водолей", [0, 52]),
     ("Луна", "Скорпион", [13, 7]),
@@ -27,7 +28,7 @@ planets_info_aleksei = [
     ("Юпитер", "Рак", [10, 43]),
     ("Сатурн", "Козерог", [12, 39])
 ]
-planets_info = planets_info_aleksei
+#planets_info = planets_info_aleksei
 
 
 lagna_minutes = 28
@@ -252,13 +253,28 @@ def birth_period(sunrise, sunset, birth_time, light_day):
         print(f"Третья треть ночи: {third_2[0]}:{third_2[1]} - {third_3[0]}:{third_3[1]} (Марс)")
     print(f"Юпитер всегда + 60")
 
-def ayana_bala(kranti, graha ):
-    if graha == "-": 
-        res = ((24 - kranti) * 60) / 48
-    else: 
+def ayana_bala(kranti, graha, rashi):
+    """
+    Для Солнца, Марса, Юпитера и Венеры — при северном склонении осуществляется сложение кранти, при южном – вычитание.
+    Для Луны и Сатурна — при северном склонении осуществляется вычитание кранти, при южном – сложение.
+    Для Меркурия кранти всегда прибавляется. Для Солнца аяна бала удваивается.
+    """
+    print(f"Направление: {graha_direction[rashi]}")
+    if graha in ("Солнце", "Марс", "Юпитер", "Венера") and graha_direction[rashi] == "Север": 
         res = ((24 + kranti) * 60) / 48
-    #res = res * 2 # сурья онли x2
-    print(f"ayana bala: {res}")
+        
+    if graha in ("Солнце", "Марс", "Юпитер", "Венера") and graha_direction[rashi] == "ЮГ": 
+        res = ((24 - kranti) * 60) / 48
+
+    if graha in ("Луна", "Сатурн") and graha_direction[rashi] == "Север": 
+        res = ((24 - kranti) * 60) / 48
+    if graha in ("Луна", "Сатурн") and graha_direction[rashi] == "ЮГ": 
+        res = ((24 + kranti) * 60) / 48
+    if graha == "Меркурий": 
+        res = ((24 + kranti) * 60) / 48 
+    if graha == "Солнце": 
+        res = res * 2 # сурья онли x2
+    print(f"ayana bala: {int(res)}")
 
 
 def ravnodenstvie_distance(dolgota, ayanamsha=[21,16]):
@@ -328,7 +344,8 @@ for planet_info in planets_info:
         dolgota_seconds=dolgota_seconds,
         graha=graha)  
 
-    ravnodenstvie_distance([dolgota_minutes,dolgota_seconds], ayanamsha=[23,44] )
+    kranti = ravnodenstvie_distance([dolgota_minutes,dolgota_seconds], ayanamsha=ayanamsha)
+    ayana_bala(kranti=kranti, graha=graha, rashi=rashi)
     print("*****************************************")
 
 kala_bala(sunrise, light_day, birth_time)
