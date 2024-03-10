@@ -28,7 +28,7 @@ planets_info_aleksei = [
     ("Юпитер", "Рак", [10, 43]),
     ("Сатурн", "Козерог", [12, 39])
 ]
-#planets_info = planets_info_aleksei
+planets_info = planets_info_aleksei
 
 
 lagna_minutes = 28
@@ -144,11 +144,11 @@ def kala_bala(sunrise, light_day, birth_time):
     return
 
 
-def subtract_astronomical_time(min1, sec1, min2, sec2):
+def subtract_astronomical_time(min1, sec1, min2, sec2, diff_360=0):
     total_min1 = min1 + sec1 / 60
     total_min2 = min2 + sec2 / 60
     diff_min = total_min1 - total_min2
-    if diff_min < 0:
+    if diff_min < 0 and diff_360 == 0:
         diff_min += 360  # Учитываем зацикленность по 360 градусам
     diff_sec = (diff_min - int(diff_min)) * 60
     diff_min = int(diff_min)
@@ -352,3 +352,7 @@ kala_bala(sunrise, light_day, birth_time)
 
 paksha_bala(planets_info[0], planets_info[1])
 birth_period(sunrise, sunset, birth_time, light_day)
+
+print("DRAFTS**********")
+subtract_astronomical_time(344, 17, 300, 52, diff_360=1)
+#subtract_astronomical_time(9, 35, 131, 8, diff_360=1)
