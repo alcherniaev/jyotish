@@ -28,7 +28,7 @@ planets_info_aleksei = [
     ("Юпитер", "Рак", [10, 43]),
     ("Сатурн", "Козерог", [12, 39])
 ]
-planets_info = planets_info_aleksei
+#planets_info = planets_info_aleksei
 
 
 lagna_minutes = 28
@@ -133,8 +133,8 @@ def kala_bala(sunrise, light_day, birth_time):
     nata_bala = abs(720 - unnata_bala)
     chandra_mangala_shani = nata_bala * 2
     syria_guru = 1440 - chandra_mangala_shani
-    chandra_mangala_shani_ghati = [int(chandra_mangala_shani // 24), int((chandra_mangala_shani%24)*60/24)]
-    syria_guru_shukra_ghati = [int(syria_guru // 24), int((syria_guru%24)*60/24)]
+    chandra_mangala_shani_ghati = [round(chandra_mangala_shani // 24), round((chandra_mangala_shani%24)*60/24)]
+    syria_guru_shukra_ghati = [round(syria_guru // 24), round((syria_guru%24)*60/24)]
     print("")
     print("******* Nathonata Bala *******")
     print(f"chandra, mangala, shani: {chandra_mangala_shani_ghati}")
@@ -145,14 +145,14 @@ def kala_bala(sunrise, light_day, birth_time):
 
 
 def subtract_astronomical_time(min1, sec1, min2, sec2, diff_360=0):
-    total_min1 = min1 + sec1 / 60
-    total_min2 = min2 + sec2 / 60
-    diff_min = total_min1 - total_min2
-    if diff_min < 0 and diff_360 == 0:
-        diff_min += 360  # Учитываем зацикленность по 360 градусам
-    diff_sec = (diff_min - int(diff_min)) * 60
-    diff_min = int(diff_min)
-    return [diff_min, int(diff_sec)]
+    total_sec1 = min1*60 + sec1
+    total_sec2 = min2*60 + sec2
+    diff_sec = total_sec1 - total_sec2
+    if diff_sec < 0 and diff_360 == 0:
+        diff_sec += 360*60  # Учитываем зацикленность по 360 градусам
+    #diff_sec = (diff_min - int(diff_min)) * 60
+    #diff_min = int(diff_min)
+    return [diff_sec//60, diff_sec%60]
 
 
 def divide_astronomical_degrees(minutes, seconds, divisor=15):
@@ -162,7 +162,7 @@ def divide_astronomical_degrees(minutes, seconds, divisor=15):
     result_minutes = divided_minutes // 60
     result_seconds = divided_minutes % 60
     
-    return [int(result_minutes), int(result_seconds)]
+    return [round(result_minutes), round(result_seconds)]
 
 def paksha_bala(syria, chandra):
     chandra_dolgota = [0,0]
@@ -204,17 +204,17 @@ def birth_period(sunrise, sunset, birth_time, light_day):
         print(f"длительность дня: {light_day_minutes} минут")
         print(f"треть дня: {day_third}")
 
-        third_1 = [int((sunrise_minutes + day_third)//60), int((sunrise_minutes + day_third)%60)]
+        third_1 = [round((sunrise_minutes + day_third)//60), round((sunrise_minutes + day_third)%60)]
         if third_1[0]*60 + third_1[1] > 24*60:
             third_1_p = 24*60 - (third_1[0]*60 + third_1[1])
             third_1 = [third_1_p[0], third_1_p[1]]
 
-        third_2 = [int((sunrise_minutes + day_third*2)//60), int((sunrise_minutes + day_third*2)%60)]
+        third_2 = [round((sunrise_minutes + day_third*2)//60), round((sunrise_minutes + day_third*2)%60)]
         if third_2[0]*60 + third_2[1] > 24*60:
             third_2_p = (third_2[0]*60 + third_2[1]) - 24*60
             third_2 = [third_2_p//60, third_2_p%60]
 
-        third_3 = [int((sunrise_minutes + day_third*3)//60), int((sunrise_minutes + day_third*3)%60)]
+        third_3 = [round((sunrise_minutes + day_third*3)//60), round((sunrise_minutes + day_third*3)%60)]
         if third_3[0]*60 + third_3[1] > 24*60:
             third_3_p = (third_3[0]*60 + third_3[1]) - 24*60
             third_3 = [third_3_p//60, third_3_p%60]
@@ -233,17 +233,17 @@ def birth_period(sunrise, sunset, birth_time, light_day):
         night_third = night_duration / 3
         print(f"длительность ночи: {night_duration} минут")
         print(f"треть ночи: {night_third}")
-        third_1 = [int((night_start + night_third)//60), int((night_start + night_third)%60)]
+        third_1 = [round((night_start + night_third)//60), round((night_start + night_third)%60)]
         if third_1[0]*60 + third_1[1] > 24*60:
             third_1_p = 24*60 - (third_1[0]*60 + third_1[1])
             third_1 = [third_1_p[0], third_1_p[1]]
 
-        third_2 = [int((night_start + night_third*2)//60), int((night_start + night_third*2)%60)]
+        third_2 = [round((night_start + night_third*2)//60), round((night_start + night_third*2)%60)]
         if third_2[0]*60 + third_2[1] > 24*60:
             third_2_p = (third_2[0]*60 + third_2[1]) - 24*60
             third_2 = [third_2_p//60, third_2_p%60]
 
-        third_3 = [int((night_start + night_third*3)//60), int((night_start + night_third*3)%60)]
+        third_3 = [round((night_start + night_third*3)//60), round((night_start + night_third*3)%60)]
         if third_3[0]*60 + third_3[1] > 24*60:
             third_3_p = (third_3[0]*60 + third_3[1]) - 24*60
             third_3 = [third_3_p//60, third_3_p%60]
@@ -306,7 +306,7 @@ def ravnodenstvie_distance(dolgota, ayanamsha=[21,16]):
     a = (bhudja_chastnoe[0]*60+bhudja_chastnoe[1])
     b = 15*60
     c = (a/b) * kranty_mult[bhudja_ostatok]
-    kranty = int(c + sklonenie[bhudja_ostatok])
+    kranty = round(c + sklonenie[bhudja_ostatok])
     print(f"kranty = {kranty//60, kranty%60}")
     return kranty/60
 
@@ -346,6 +346,43 @@ for planet_info in planets_info:
 
     kranti = ravnodenstvie_distance([dolgota_minutes,dolgota_seconds], ayanamsha=ayanamsha)
     ayana_bala(kranti=kranti, graha=graha, rashi=rashi)
+    print("^^^*****Дришти Бала*****^^^")
+    """
+    Вычитаем аспектирующую из аспектируемой
+    Особый аспект Сатурна: 45 (3, 10 дома)
+    Особый аспект Юпитер: 30 (5, 9 дома)
+    Особый аспект Марс: 15 (4, 8 дома)
+    """ 
+    for planet_info_2 in planets_info:
+        graha_2, rashi_2, position_2 = planet_info_2
+        minutes_2, seconds_2 = position_2
+        
+        dolgota_minutes_2, dolgota_seconds_2 = calculate_dolgota(
+                                                    minutes=minutes_2, 
+                                                    seconds=seconds_2, 
+                                                    rashi=rashi_2,
+                                                    graha=graha_2,
+                                                    initial=False)
+        
+        if graha != graha_2:
+            pre_drishti = subtract_astronomical_time(dolgota_minutes_2, dolgota_seconds_2, 
+                                dolgota_minutes, dolgota_seconds, diff_360=0)
+            #drishti_min = drishti[0]*60 + drishti[1]
+            pre_drishti_min = pre_drishti[0]*60 + pre_drishti[1]
+            drishti = 0
+            if 180 < pre_drishti[0] < 300: 
+                drishti = (300*60 - pre_drishti_min) / 2
+            elif 150 < pre_drishti[0] < 180: 
+                drishti = (pre_drishti_min - 150*60) * 2
+            elif 120 < pre_drishti[0] < 150: 
+                drishti = 150*60 - pre_drishti_min
+            elif 90 < pre_drishti[0] < 120: 
+                drishti = ((120*60 - pre_drishti_min) / 2) + 30*60
+            elif 60 < pre_drishti[0] < 90: 
+                drishti = (pre_drishti_min  - 60*60) + 15*60
+            elif 30 < pre_drishti[0] < 60: 
+                drishti = (pre_drishti_min  - 30*60) / 2
+            print(f"Аспект от {graha} На {graha_2} : {round(drishti//60), round(drishti%60)} \n Угол({pre_drishti})")
     print("*****************************************")
 
 kala_bala(sunrise, light_day, birth_time)
@@ -353,6 +390,55 @@ kala_bala(sunrise, light_day, birth_time)
 paksha_bala(planets_info[0], planets_info[1])
 birth_period(sunrise, sunset, birth_time, light_day)
 
+
+
+
+
+
+
 print("DRAFTS**********")
-subtract_astronomical_time(344, 17, 300, 52, diff_360=1)
-#subtract_astronomical_time(9, 35, 131, 8, diff_360=1)
+
+
+#subtract_astronomical_time(32, 45, 41, 49, diff_360=1)
+
+
+def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, action="subtract", d=False):
+    # Переводим часы и минуты в минуты
+    start_total_minutes = start_hours * 60 + start_minutes
+    subtract_total_minutes = subtract_hours * 60 + subtract_minutes
+    print(f"start_total_minutes: {start_total_minutes}")
+    print(f"subtract_total_minutes: {subtract_total_minutes}")
+    if action =="subtract" or action == "-":
+    # Вычисляем разницу в минутах
+        difference_minutes = start_total_minutes - subtract_total_minutes
+    else: 
+        difference_minutes = start_total_minutes + subtract_total_minutes
+    if d == True: 
+        if difference_minutes < 0: # после достижения 0 начинается не 0, а 360, не -1, а 359 и тд
+           difference_minutes = 360*60 + difference_minutes
+    # Вычисляем часы и минуты из разницы в минутах
+    if difference_minutes > 0:
+        print(f"difference_minutes: {difference_minutes}")
+        difference_hours = difference_minutes // 60
+        difference_minutes %= 60
+    else:
+        difference_hours = difference_minutes // -60
+        difference_hours = 0 - difference_hours
+        difference_minutes %= -60
+    
+        
+    return f"{difference_hours}:{difference_minutes:02d}"
+
+# прибавить, вычесть секунды
+start_hours = -13
+start_minutes = -24
+subtract_hours = 11
+subtract_minutes = 4
+
+action = "+"
+
+
+difference = time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, action, d=False)
+
+print("Разница времени:", difference)
+
