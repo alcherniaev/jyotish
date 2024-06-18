@@ -2,15 +2,17 @@ from conf import *
 from datetime import datetime, timedelta
 
 # Список планет и их позиций
-ayanamsha=[23,39]
+ayanamsha=[24,0]
 planets_info = [
-    ("Солнце", "Водолей", [0, 52]),
-    ("Луна", "Скорпион", [13, 7]),
-    ("Меркурий", "Козерог", [26, 12]),
-    ("Венера", "Рыбы", [15, 43]),
-    ("Марс", "Рыбы", [14, 17]),
-    ("Юпитер", "Козерог", [7, 51]),
-    ("Сатурн", "Скорпион", [4, 3])
+    ("Солнце", "Овен", [13, 13]),
+    ("Луна", "Весы", [1, 19]),
+    ("Меркурий", "Овен", [14, 58]),
+    ("Венера", "Телец", [8, 56]),
+    ("Марс", "Рак", [17, 9]),
+    ("Юпитер", "Водолей", [29, 5]),
+    ("Сатурн", "Дева", [4, 43]),
+#    ("Раху", "Стрелец", [20, 18]),
+#    ("Кету", "Близнецы", [20, 18])
 ]
 """print(planets_info[0])
 print(planets_info[0][0])
@@ -28,22 +30,41 @@ planets_info_aleksei = [
     ("Юпитер", "Рак", [10, 43]),
     ("Сатурн", "Козерог", [12, 39])
 ]
-#planets_info = planets_info_aleksei
 
+planets_info_irina = [
+    ("Солнце", "Стрелец", [4, 41]),
+    ("Луна", "Скорпион", [17, 8]),
+    ("Меркурий", "Стрелец", [19, 46]),
+    ("Венера", "Козерог", [5, 7]),
+    ("Марс", "Стрелец", [21, 44]),
+    ("Юпитер", "Стрелец", [3, 8]),
+    ("Сатурн", "Водолей", [24, 56])
+]
+planets_info = planets_info
 
-lagna_minutes = 28
-lagna_seconds = 35
-lagna_rashi = "Овен"
+#denis
+lagna_minutes = 19
+lagna_seconds = 56
+lagna_rashi = "Дева"
 
-sunrise = [8, 9]
+#olga
+"""sunrise = [8, 9]
 light_day = [9, 8]
 birth_time = [10, 0]
-sunset = [17, 17]
+sunset = [17, 17]"""
+
+sunrise = [4, 42]
+light_day = [15, 30]
+birth_time = [17, 35]
+sunset = [20, 12]
 
 """lagna_minutes = 10
 lagna_seconds = 9
 lagna_rashi = "Козерог"
 """
+
+
+    
 
 def calculate_dolgota(minutes, seconds, rashi, graha, rashis=rashi_values, initial=True):
     if rashi in rashis:
@@ -430,15 +451,147 @@ def time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes
     return f"{difference_hours}:{difference_minutes:02d}"
 
 # прибавить, вычесть секунды
-start_hours = -13
-start_minutes = -24
-subtract_hours = 11
-subtract_minutes = 4
+start_hours = 360
+start_minutes = 0
+subtract_hours = 304
+subtract_minutes = 56
+action = "-"
 
-action = "+"
-
-
-difference = time_difference(start_hours, start_minutes, subtract_hours, subtract_minutes, action, d=False)
-
+difference = time_difference(start_hours, start_minutes, 
+                             subtract_hours, subtract_minutes, action, d=False)
 print("Разница времени:", difference)
+"""
+#Солнце
+36.57
+10
+15
+2
+10
+10
+10
+30
+30
+15
+59.14
+47.45
+34.05
+30
+93
+93
+60
+-2.16
 
+585.45
+
+#Луна
+3.22
+4
+10
+15
+15
+10
+15
+15
+30
+25.09
+12.15
+51.50
+57
+51.50
+51
+-0.24
+
+315.04
+
+#Меркурий (сожжен)
+16.16
+30
+45
+30
+4
+15
+60
+29.12
+60
+25.55
+60
+45
+48
+45
+26
+-13.31
+
+552.54
+
+#Венера
+56.14
+14
+15
+59
+15
+30
+15
+15.42
+46.25
+25.55
+34
+8.34
+
+334.50
+
+#Марс
+44.34
+20
+4
+15
+30
+2
+10
+15
+44.46
+12.15
+34.05
+33
+8.12
+
+272.52
+
+#Юпитер
+0.57
+15
+2
+40
+17
+60
+15
+23.05
+47.45
+25.55
+60
+15
+55
+-12.43
+
+363.59
+
+#Шани
+55.19
+12
+44
+45
+45
+58.10
+12.15
+34.05
+60
+55
+0.04
+
+375.45
+"""
+print(763//60, 763%60)
+grds_m = (55*60+4)
+grds_m = grds_m*5 / 6
+grds = [grds_m//60, grds_m%60]
+print(grds)
+print(grds[0]//30)
